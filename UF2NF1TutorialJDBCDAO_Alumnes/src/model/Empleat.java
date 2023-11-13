@@ -1,7 +1,7 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 
 public class Empleat {
 	private Integer codiEmpleat;
@@ -86,19 +86,40 @@ public class Empleat {
 		this.comisioEmpleat = comisioEmpleat;
 	}
 
-	public Departament getdepartamentEmpleat() {
+	public Departament getDepartamentEmpleat() {
 		return departamentEmpleat;
 	}
 
-	public void setdepartamentEmpleat(Departament departamentEmpleat) {
+	public void setDepartamentEmpleat(Departament departamentEmpleat) {
 		this.departamentEmpleat = departamentEmpleat;
 	}
 	
 	@Override
 	public String toString() {
-		String resultat = "Dades de l'empleat: [Codi:" + codiEmpleat
-				+ ", Cognom:" + cognomEmpleat + ", Ofici:"
-				+ oficiEmpleat + ", Cap:" + capEmpleat + ", Data d'alta:" + dataAltaEmpleat + ", Salari: " + salariEmpleat + ", Comisió:" + comisioEmpleat + ", Departament:"+ departamentEmpleat + "]";
+		String resultat = "";
+		
+		if (departamentEmpleat.getLlistaEmpleats().isEmpty()) {
+			resultat = "\tEmpleat " + codiEmpleat
+				+ ": Cognom: " + cognomEmpleat 
+				+ ", Ofici: " + oficiEmpleat 
+				+ ", Cap: " + capEmpleat 
+				+ ", Data d'alta: " 
+				+ dataAltaEmpleat + ", Salari: " 
+				+ salariEmpleat + ", Comisió: " 
+				+ comisioEmpleat + ", Departament: " 
+				+ departamentEmpleat.getNomDepartament() 
+				+ "\n";
+			
+		} else {
+			resultat = "\tEmpleat " + codiEmpleat
+					+ ": Cognom: " + cognomEmpleat
+					+ ", Ofici: " + oficiEmpleat 
+					+ ", Cap: " + capEmpleat 
+					+ ", Data d'alta: " + dataAltaEmpleat 
+					+ ", Salari: " + salariEmpleat 
+					+ ", Comisió: " + comisioEmpleat 
+					+ "\n";
+		}
 		
 		return resultat;
 	}

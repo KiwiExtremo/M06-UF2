@@ -5,13 +5,13 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class GestorConnexions {
-/*	private static String url = "jdbc:mysql://localhost:3307/Empleats";
-	private static String user = "cfgs" ;
-	private static String pwd = "ira491";*/
-	
 	private static String url = "jdbc:mysql://localhost/Empleats";
-	private static String user = "root" ;
-	private static String pwd = "";
+	private static String user = "cfgs" ;
+	private static String pwd = "ira491";
+	
+//	private static String url = "jdbc:mysql://localhost/Empleats";
+//	private static String user = "root" ;
+//	private static String pwd = "";
 	private static Connection connexio = null;
 		
 	private static int connectar(){

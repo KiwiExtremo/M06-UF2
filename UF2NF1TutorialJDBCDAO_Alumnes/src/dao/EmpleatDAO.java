@@ -10,7 +10,7 @@ public interface EmpleatDAO {
 	public int addEmpleat(Empleat em);
 	
 	/*Read*/
-	public Empleat getEmpleatById(Integer Id, boolean ambEmpleats);
+	public Empleat getEmpleatById(Integer Id);
 	
 	/*Update*/
 	public int updateEmpleat(Empleat em);

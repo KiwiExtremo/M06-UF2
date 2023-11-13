@@ -1,7 +1,9 @@
 package dao;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 import model.Departament;
+import model.Empleat;
+
 public interface DepartamentDAO {
 	/*CRUD operations*/
 	/*Create*/
@@ -18,5 +20,5 @@ public interface DepartamentDAO {
 	
 	/*Consultes a demanda*/
 	public ArrayList<Departament> listDepartaments();
-	public ArrayList<Departament> listEmpleatsByDepartament();
+	public ArrayList<Empleat> listEmpleatsByDepartament(int id);
 }
