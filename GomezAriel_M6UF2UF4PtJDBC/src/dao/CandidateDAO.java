@@ -21,7 +21,7 @@ public interface CandidateDAO {
 	public int deleteCandidate(Candidate cand, boolean cascade);
 
 	// Extra queries:
-	public ArrayList<Candidate> CandidateList();
-	public ArrayList<Prize> listPrizesByCandidate(int candId);
+	public ArrayList<Candidate> CandidateList(boolean withPrizes);
+	public ArrayList<Prize> listPrizesByCandidate(Candidate candId);
 
 }

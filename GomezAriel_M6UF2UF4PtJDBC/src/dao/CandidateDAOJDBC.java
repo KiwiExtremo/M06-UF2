@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import model.Candidate;
 import model.Prize;
+import model.PrizeType;
 
 public class CandidateDAOJDBC implements CandidateDAO {
 	// CRUD operations:
@@ -83,7 +84,7 @@ public class CandidateDAOJDBC implements CandidateDAO {
 				resultCandidate.setEmail(result.getString(5));
 			}
 			if (withPrizes) {
-				ArrayList<Prize> listPrizes = listPrizesByCandidate(candId);
+				ArrayList<Prize> listPrizes = listPrizesByCandidate(resultCandidate);
 
 				resultCandidate.setPrizeList(listPrizes);
 			}
@@ -107,19 +108,101 @@ public class CandidateDAOJDBC implements CandidateDAO {
 	// Update
 	@Override
 	public int updateCandidate(Candidate cand) {
-		// TODO Auto-generated method stub
-		return 0;
+//		Boolean isConnectionOpen = false;
+//
+//		String sql = "UPDATE candidates WHERE candidateId = ?";
+//
+//		try {
+//			isConnectionOpen = ConnectionManager.isConnected();
+//
+//			Connection connection = ConnectionManager.getConnection();
+//
+//			PreparedStatement sentence = connection.prepareStatement(sql);
+//
+//			// bind value
+//			sentence.setInt(1, cand.getCandidateId());
+//
+//			int resultCode = sentence.executeUpdate();
+//
+//			return resultCode;
+//
+//		} catch (SQLException e) {
+//			if (e.getErrorCode() == 1062) {
+//
+//				// PK repetida
+//				return e.getErrorCode() * -1;
+//			} else {
+//				e.printStackTrace();
+//				return -1;
+//			}
+//		} finally {
+//			if (!isConnectionOpen) {
+//				ConnectionManager.closeConnection();
+//			}
+//		}
+		return 0; // This method isn't necessary.
 	}
 
 	// Delete:
 	@Override
 	public int deleteCandidate(Candidate cand, boolean cascade) {
-		// TODO Auto-generated method stub
-		return 0;
+		Boolean isConnectionOpen = false;
+
+		String sql = "DELETE FROM candidates WHERE candidateId = ?";
+
+		String sql2 = "DELETE FROM prizes WHERE candidateId = ?";
+
+		Connection connection = ConnectionManager.getConnection();
+		
+		try {
+			isConnectionOpen = ConnectionManager.isConnected();
+			
+			connection.setAutoCommit(false);
+
+			PreparedStatement sentence = connection.prepareStatement(sql);
+			
+			if (cascade) {
+				PreparedStatement sentenceCascade = connection.prepareStatement(sql2);
+				
+				sentenceCascade.setInt(1, cand.getCandidateId());
+				
+				sentenceCascade.executeUpdate();
+			}
+			
+			// Bindejar valors
+			sentence.setInt(1, cand.getCandidateId());
+			
+			int resultCode = sentence.executeUpdate();
+			
+			connection.commit();
+			
+			return resultCode;
+			
+		} catch (SQLException e) {
+			if (isConnectionOpen) {
+		        try {
+		        	System.err.println("Transaction is being rolled back");
+					connection.rollback();
+					
+					connection.setAutoCommit(true);
+					
+				} catch (SQLException eRollback) {
+					eRollback.printStackTrace();
+					
+					return -1;
+				}
+		      }
+			return -1;
+			
+		} finally {
+			if (!isConnectionOpen) {
+				ConnectionManager.closeConnection();
+			}
+		}
 	}
 
 	@Override
-	public ArrayList<Candidate> CandidateList() {
+	public ArrayList<Candidate> CandidateList(boolean withPrizes) {
 		Boolean isConnectionOpen = false;
 
 		String sql = "SELECT candidateId, firstName, lastName, phoneNumber, email FROM candidates";
@@ -167,11 +250,17 @@ public class CandidateDAOJDBC implements CandidateDAO {
 		}
 	}
 	@Override
-	public ArrayList<Prize> listPrizesByCandidate(int candId) {
+	public ArrayList<Prize> listPrizesByCandidate(Candidate candId) {
 		Boolean isConnectionOpen = false;
 
 		String sql = "SELECT candidateId, prizeId, prizeTypeId, Year FROM prizes WHERE candidateId = ?";
-
+		
+		// Create placeholder objects
+		Prize prizePlaceholder = new Prize();
+		PrizeType prizeTypePlaceholder = new PrizeType();
+		
+		PrizeTypeDAO priTypeDAO = DAOManager.getPriTypeDAO();
+		
 		try {
 			isConnectionOpen = ConnectionManager.isConnected();
 
@@ -180,7 +269,7 @@ public class CandidateDAOJDBC implements CandidateDAO {
 			PreparedStatement sentence = connection.prepareStatement(sql);
 
 			// bind value
-			sentence.setInt(1, candId);
+			sentence.setInt(1, candId.getCandidateId());
 
 			ResultSet result = sentence.executeQuery();
 
@@ -188,16 +277,17 @@ public class CandidateDAOJDBC implements CandidateDAO {
 			ArrayList<Prize> listPrizes = new ArrayList<Prize>();
 
 			while (result.next()) {
-				// create placeholder prize
-				Prize prize = new Prize();
+				// bind results into placeholder prize type
+				prizeTypePlaceholder = priTypeDAO.getPrizeTypeById(candId.getCandidateId(), false);
 				
 				// bind results into placeholder prize
-				prize.setCandidateId(candId);
-				prize.setPrizeId(result.getInt(2));
-				prize.setPrizeTypeId(result.getInt(3));
+				prizePlaceholder.setCandidateId(candId);
+				prizePlaceholder.setPrizeId(result.getInt(2));
+				prizePlaceholder.setPrizeTypeId(prizeTypePlaceholder);
+				prizePlaceholder.setYear(result.getInt(4));
 				
 				// add current prize from placeholder into array
-				listPrizes.add(prize);
+				listPrizes.add(prizePlaceholder);
 			}
 
 			return listPrizes;

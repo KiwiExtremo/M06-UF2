@@ -1,16 +1,16 @@
 package model;
 
 public class Prize {
-	private Integer candidateId;
 	private Integer prizeId;
-	private Integer prizeTypeId;
+	private Candidate candidateId;
+	private PrizeType prizeTypeId;
 	private Integer year;
 
 	public Prize() {
 		super();
 	}
 
-	public Prize(Integer candidateId, Integer prizeId, Integer prizeTypeId, Integer year) {
+	public Prize(Candidate candidateId, Integer prizeId, PrizeType prizeTypeId, Integer year) {
 		super();
 		this.candidateId = candidateId;
 		this.prizeId = prizeId;
@@ -18,11 +18,11 @@ public class Prize {
 		this.year = year;
 	}
 
-	public Integer getCandidateId() {
+	public Candidate getCandidateId() {
 		return candidateId;
 	}
 
-	public void setCandidateId(Integer candidateId) {
+	public void setCandidateId(Candidate candidateId) {
 		this.candidateId = candidateId;
 	}
 
@@ -34,11 +34,11 @@ public class Prize {
 		this.prizeId = prizeId;
 	}
 
-	public Integer getPrizeTypeId() {
+	public PrizeType getPrizeTypeId() {
 		return prizeTypeId;
 	}
 
-	public void setPrizeTypeId(Integer prizeTypeId) {
+	public void setPrizeTypeId(PrizeType prizeTypeId) {
 		this.prizeTypeId = prizeTypeId;
 	}
 
@@ -49,5 +49,21 @@ public class Prize {
 	public void setYear(Integer year) {
 		this.year = year;
 	}
-
+	
+	@Override
+	public String toString() {
+		String string = "Prize data:\n";
+		string += "\tPrize ID: " + prizeId;
+		string += "\tCandidate " + candidateId.getCandidateId() + " data:\n";
+		string += "\t\tName: " + candidateId.getFirstName() + " " + candidateId.getLastName() + "\n";
+		string += "\t\tEmail: " + candidateId.getEmail() + "\n";
+		string += "\t\tPhone: " + candidateId.getPhoneNumber() + "\n";
+		string += "\tPrize type " + prizeTypeId.getPrizeTypeId() + " data:\n";
+		string += "\t\tName " + prizeTypeId.getPrizeName() + "\n";
+		string += "\t\tDescription: " + prizeTypeId.getPrizeDescription() + "\n";
+		string += "\t\tValue: " + prizeTypeId.getPrizeValue() + "\n";
+		string += "\tYear: " + year + "\n";
+		
+		return string;
+	}
 }

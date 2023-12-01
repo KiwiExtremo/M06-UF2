@@ -1,10 +1,13 @@
 package model;
 
+import java.util.ArrayList;
+
 public class PrizeType {
 	private Integer prizeTypeId;
 	private String prizeName;
 	private String prizeDescription;
 	private Double prizeValue;
+	private ArrayList<Prize> prizeList = new ArrayList<Prize>();
 
 	public PrizeType() {
 		super();
@@ -49,5 +52,26 @@ public class PrizeType {
 	public void setPrizeValue(Double prizeValue) {
 		this.prizeValue = prizeValue;
 	}
+	
+	public ArrayList<Prize> getPrizeList() {
+		return prizeList;
+	}
 
+	public void setPrizeList(ArrayList<Prize> prizeList) {
+		this.prizeList = prizeList;
+	}
+	
+	@Override
+	public String toString() {
+		String string = "Prize type data:\n";
+		string += "\tPrize type ID: " + prizeTypeId + "\n";
+		string += "\tName: " + prizeName + "\n";
+		string += "\tDescription: " + prizeDescription + "\n";
+		string += "\tValue: " + prizeValue + "\n";
+		if (!prizeList.isEmpty()) {
+			string += prizeList;
+		}
+		
+		return string;
+	}
 }

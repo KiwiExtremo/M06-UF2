@@ -9,7 +9,7 @@ public interface PrizeDAO {
 	public int addPrize(Prize pri);
 
 	// Read:
-	public Prize getPrize(int priId, boolean withPrizes);
+	public Prize getPrizeById(int priId);
 
 	// Update:
 	public int updatePrize(Prize pri);

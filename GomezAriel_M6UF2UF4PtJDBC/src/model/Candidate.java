@@ -14,7 +14,7 @@ public class Candidate {
 		super();
 	}
 
-	public Candidate(int candidateId, String email, String firstName, String lastName, String phoneNumber) {
+	public Candidate(Integer candidateId, String email, String firstName, String lastName, String phoneNumber) {
 		super();
 		this.candidateId = candidateId;
 		this.email = email;
@@ -69,5 +69,19 @@ public class Candidate {
 
 	public void setPrizeList(ArrayList<Prize> prizeList) {
 		this.prizeList = prizeList;
+	}
+	
+	@Override
+	public String toString() {
+		String string = "Candidate data:\n";
+		string += "\tCandidate ID: " + getCandidateId() + "\n";
+		string += "\tName: " + getFirstName() + " " + getLastName() + "\n";
+		string += "\tEmail: " + getEmail() + "\n";
+		string += "\tPhone: " + getPhoneNumber() + "\n";
+		if (!prizeList.isEmpty()) {
+			string += prizeList;
+		}
+		
+		return string;
 	}
 }

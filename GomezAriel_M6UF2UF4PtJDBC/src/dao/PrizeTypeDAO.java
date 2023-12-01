@@ -9,17 +9,18 @@ public interface PrizeTypeDAO {
 	// CRUD operations:
 	
 	// Create:
-	public int AddPrizeType(PrizeType priType);
+	public int addPrizeType(PrizeType priType);
 	
 	// Read:
-	public PrizeType getPrizeType(int priTypeId, boolean withPrizes);
+	public PrizeType getPrizeTypeById(int priTypeId, boolean withPrizes);
 	
 	// Update:
 	public int updatePrizeType(PrizeType priType);
 	
 	// Delete:
-	public int deletePrizeType(PrizeType priType, boolean cascade);
+	public int deletePrizeType(PrizeType priType);
 	
 	//Extra queries:
 	public ArrayList<Prize> PrizeList();
+	public ArrayList<Prize> listPrizesByPrizeType(int priTypeId);
 }
